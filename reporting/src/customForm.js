@@ -3,12 +3,15 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 
-export default function App() {
+export default function CustomForm() {
   const [request, setRequest] = useState('');
   const [effort, setEffort] = useState('');
   const [type, setType] = useState('');
   const [role, setRole] = useState('');
   const [comments, setComments] = useState('');
+  const [environment, setEnvironment] = useState('');
+
+  //ADD ENVIRONMENT COLUMN
 
   const onRequestChange = (e) => {
     setRequest(e.target.value);
@@ -30,15 +33,32 @@ export default function App() {
     setComments(e.target.value);
   };
 
-  const sendValue = () => {
-    console.log({
+  const onEnvChange = (e) => {
+    setEnvironment(e.target.value);
+  };
+
+  const sendValue = (event) => {
+    const obj = {
       request: request,
       effort: effort,
       type: type,
+      environment: environment,
       role: role,
       comments: comments
-    });
+    };
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(obj)
   };
+    fetch('http://localhost:3000/store-data', requestOptions)
+      .then(function(response) {
+        console.log(response)
+        return response.json();
+      });
+      event.preventDefault();
+  }
 
   return (
     <div>
@@ -64,6 +84,14 @@ export default function App() {
         label="Type"
         placeholder="Ex. P1 Alerts"
         onChange={onTypeChange}
+      />
+
+      <TextField
+        required
+        id="outlined-required"
+        label="Environment"
+        placeholder="Ex. P1 Alerts"
+        onChange={onEnvChange}
       />
 
       <TextField
