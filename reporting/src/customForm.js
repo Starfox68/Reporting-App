@@ -1,17 +1,17 @@
-import React from 'react';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { useState } from 'react';
+import React from "react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { useState } from "react";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@mui/material/Typography";
 
 export default function CustomForm() {
-  const [request, setRequest] = useState('');
-  const [effort, setEffort] = useState('');
-  const [type, setType] = useState('');
-  const [role, setRole] = useState('');
-  const [comments, setComments] = useState('');
-  const [environment, setEnvironment] = useState('');
-
-  //ADD ENVIRONMENT COLUMN
+  const [request, setRequest] = useState("");
+  const [effort, setEffort] = useState("");
+  const [type, setType] = useState("");
+  const [role, setRole] = useState("");
+  const [comments, setComments] = useState("");
+  const [environment, setEnvironment] = useState("");
 
   const onRequestChange = (e) => {
     setRequest(e.target.value);
@@ -44,81 +44,92 @@ export default function CustomForm() {
       type: type,
       environment: environment,
       role: role,
-      comments: comments
+      comments: comments,
     };
 
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(obj)
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj),
+    };
+    fetch("http://localhost:3000/store-data", requestOptions).then(function (
+      response
+    ) {
+      console.log(response);
+      return response.json();
+    });
+    event.preventDefault();
   };
-    fetch('http://localhost:3000/store-data', requestOptions)
-      .then(function(response) {
-        console.log(response)
-        return response.json();
-      });
-      event.preventDefault();
-  }
 
   return (
     <div>
-      <TextField
-        required
-        id="outlined-required"
-        label="Request"
-        placeholder="Ex. P1 Alerts"
-        onChange={onRequestChange}
-      />
+      <Grid container alignItems="center" justify="center" direction="column">
+        <Typography variant="h6" component="div" style={{ marginTop: "30px" }}>
+          Click Send to complete the form
+        </Typography>
+        <Grid item style={{ marginTop: "30px" }}>
+          <TextField
+            required
+            id="outlined-required"
+            label="Request"
+            placeholder="Ex. P1 Alerts"
+            onChange={onRequestChange}
+          />
+          <TextField
+            required
+            type={'number'}
+            id="outlined-required"
+            label="Effort"
+            placeholder="Ex. P1 Alerts"
+            onChange={onEffortChange}
+          />
+        </Grid>
+        <Grid item style={{ marginTop: "30px" }}>
+          <TextField
+            required
+            id="outlined-required"
+            label="Type"
+            placeholder="Ex. P1 Alerts"
+            onChange={onTypeChange}
+          />
 
-      <TextField
-        required
-        id="outlined-required"
-        label="Effort"
-        placeholder="Ex. P1 Alerts"
-        onChange={onEffortChange}
-      />
+          <TextField
+            required
+            id="outlined-required"
+            label="Environment"
+            placeholder="Ex. P1 Alerts"
+            onChange={onEnvChange}
+          />
+        </Grid>
 
-      <TextField
-        required
-        id="outlined-required"
-        label="Type"
-        placeholder="Ex. P1 Alerts"
-        onChange={onTypeChange}
-      />
+        <Grid item style={{ marginTop: "30px" }}>
+          <TextField
+            required
+            id="outlined-required"
+            label="Role"
+            placeholder="Ex. P1 Alerts"
+            onChange={onRoleChange}
+          />
 
-      <TextField
-        required
-        id="outlined-required"
-        label="Environment"
-        placeholder="Ex. P1 Alerts"
-        onChange={onEnvChange}
-      />
-
-      <TextField
-        required
-        id="outlined-required"
-        label="Role"
-        placeholder="Ex. P1 Alerts"
-        onChange={onRoleChange}
-      />
-
-      <TextField
-        required
-        id="outlined-required"
-        label="Comments"
-        placeholder="Ex. P1 Alerts"
-        onChange={onCommentsChange}
-      />
-
-      <Button
-        variant="contained"
-        color="primary"
-        size="small"
-        onClick={sendValue}
-      >
-        Send
-      </Button>
-
+          <TextField
+            required
+            id="outlined-required"
+            label="Comments"
+            placeholder="Ex. P1 Alerts"
+            onChange={onCommentsChange}
+          />
+        </Grid>
+        <Grid item style={{ marginTop: "30px" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={sendValue}
+          >
+            Send
+          </Button>
+        </Grid>
+      </Grid>
     </div>
   );
 }
