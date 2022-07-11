@@ -35,7 +35,8 @@ export default function SummaryPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(obj),
     };
-    fetch("http://localhost:3000/check-data", requestOptions).then(function (
+    // fetch("http://localhost:3001/check-data", requestOptions).then(function (
+    fetch("http://localhost:3001/send-email", requestOptions).then(function (
       response
     ) {
       console.log(response);

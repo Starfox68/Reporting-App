@@ -52,7 +52,7 @@ export default function CustomForm() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(obj),
     };
-    fetch("http://localhost:3000/store-data", requestOptions).then(function (
+    fetch("http://localhost:3001/store-data", requestOptions).then(function (
       response
     ) {
       console.log(response);
@@ -77,7 +77,7 @@ export default function CustomForm() {
           />
           <TextField
             required
-            type={'number'}
+            type={"number"}
             id="outlined-required"
             label="Effort"
             placeholder="Ex. P1 Alerts"
