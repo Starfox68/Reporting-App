@@ -43,7 +43,7 @@ app.post("/store-data", (req, res) => {
   );
 });
 
-var dict = {
+var monthdict = {
   Jan: 1,
   Feb: 2,
   Mar: 3,
@@ -63,13 +63,13 @@ app.post("/check-data", (req, res) => {
   const start =
     req.body.startYear +
     "-" +
-    dict[String(req.body.startMonth)] +
+    monthdict[String(req.body.startMonth)] +
     "-" +
     req.body.startDay;
   const end =
     req.body.endYear +
     "-" +
-    dict[String(req.body.endMonth)] +
+    monthdict[String(req.body.endMonth)] +
     "-" +
     req.body.endDay;
 
@@ -84,9 +84,11 @@ app.post("/check-data", (req, res) => {
 
 //send email
 app.post("/send-email", (req, res) => {
+  const em = String(req.body.email);
+  
   var dataToSend;
   // spawn new child process to call the python script
-  const python = spawn("python", ["sendEmail.py"]);
+  const python = spawn("python", ["sendEmail.py",`${em}`]);
   // collect data from script
   python.stdout.on("data", function (data) {
     console.log("Pipe data from python script ...");

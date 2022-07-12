@@ -4,6 +4,7 @@ import { useState } from "react";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker } from "react-date-range";
+import TextField from "@mui/material/TextField";
 import { addDays } from "date-fns";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@mui/material/Typography";
@@ -16,19 +17,25 @@ export default function SummaryPage() {
       key: "selection",
     },
   ]);
+  const [emailaddr, setEmailaddr] = useState("");
+
 
   const sendValue = (event) => {
     const startArray = String(dateInfo[0].startDate).split(" ");
     const endArray = String(dateInfo[0].endDate).split(" ");
 
+    // const obj = {
+    //   startMonth: startArray[1],
+    //   endMonth: endArray[1],
+    //   startDay: startArray[2],
+    //   endDay: endArray[2],
+    //   startYear: startArray[3],
+    //   endYear: endArray[3],
+    // };
+
     const obj = {
-      startMonth: startArray[1],
-      endMonth: endArray[1],
-      startDay: startArray[2],
-      endDay: endArray[2],
-      startYear: startArray[3],
-      endYear: endArray[3],
-    };
+      email: emailaddr
+    }
 
     const requestOptions = {
       method: "POST",
@@ -43,6 +50,10 @@ export default function SummaryPage() {
       return response.json();
     });
     event.preventDefault();
+  };
+
+  const onEmailChange = (e) => {
+    setEmailaddr(e.target.value);
   };
 
   return (
@@ -61,14 +72,23 @@ export default function SummaryPage() {
             direction="horizontal"
           />
         </Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          onClick={sendValue}
-        >
-          Send
-        </Button>
+        <Grid item>
+        <TextField
+            required
+            id="outlined-required"
+            label="Email"
+            placeholder="Email"
+            onChange={onEmailChange}
+          />
+          <Button style={{marginLeft: "10px", marginTop: "10px"}}
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={sendValue}
+          >
+            Send
+          </Button>
+        </Grid>
       </Grid>
     </div>
   );

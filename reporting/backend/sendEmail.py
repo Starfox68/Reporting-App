@@ -5,17 +5,18 @@ from email.mime.application import MIMEApplication
 from email.mime.base import MIMEBase
 from email import encoders
 import os.path
+import sys
 
 fromaddr = "MarkoPollos@outlook.com"
-toaddr = "parthmore0116@gmail.com"
+toaddr = str(sys.argv[1])
 
 msg = MIMEMultipart()
 
 msg['From'] = fromaddr
 msg['To'] = toaddr
-msg['Subject'] = "Rescheduled Meeting Tuesday"
+msg['Subject'] = "Wrong Email"
 
-body = "Yeah lemme send you an invite"
+body = "Sorry wrong person"
 
 msg.attach(MIMEText(body, 'plain'))
 
