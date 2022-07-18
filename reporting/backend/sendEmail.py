@@ -23,7 +23,8 @@ msg['From'] = fromaddr
 msg['To'] = toaddr
 msg['Subject'] = "Scheduled Reports"
 
-body = "The issues completed were as follows:\nLow environment issue: %s\nApplication issue: %s\nReports issue: %s\nConnection issue: %s\nSMURF Alert issue: %s\nSecurity issue: %s\n" % (envNum, appNum, reportsNum, connNum, smurfNum, secNum)
+body = "The issues completed were as follows:\nLow environment issue: %s\nApplication issue: %s\nReports issue: %s\nConnection issue: %s\nSMURF Alert issue: %s\nSecurity issue: %s\n" % (
+    envNum, appNum, reportsNum, connNum, smurfNum, secNum)
 
 msg.attach(MIMEText(body, 'plain'))
 
@@ -46,4 +47,4 @@ server.sendmail(fromaddr, toaddr, text)
 server.quit()
 
 #Email: JojoGreen1122@outlook.com
-#Password: Can'tCrackThis
+# Password: Can'tCrackThis

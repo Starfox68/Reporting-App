@@ -19,7 +19,6 @@ export default function SummaryPage() {
   ]);
   const [emailaddr, setEmailaddr] = useState("");
 
-
   const sendValue = (event) => {
     const startArray = String(dateInfo[0].startDate).split(" ");
     const endArray = String(dateInfo[0].endDate).split(" ");
@@ -31,7 +30,7 @@ export default function SummaryPage() {
       endDay: endArray[2],
       startYear: startArray[3],
       endYear: endArray[3],
-      email: emailaddr
+      email: emailaddr,
     };
 
     const requestOptions = {
@@ -40,7 +39,6 @@ export default function SummaryPage() {
       body: JSON.stringify(obj),
     };
     fetch("http://localhost:3001/check-data", requestOptions).then(function (
-    // fetch("http://localhost:3001/send-email", requestOptions).then(function (
       response
     ) {
       console.log(response);
@@ -55,7 +53,12 @@ export default function SummaryPage() {
 
   return (
     <div>
-      <Grid container alignItems="center" justifyContent="center" direction="column">
+      <Grid
+        container
+        alignItems="center"
+        justifyContent="center"
+        direction="column"
+      >
         <Typography variant="h6" component="div" style={{ marginTop: "30px" }}>
           Select a date range and click send to generate an automated email
         </Typography>
@@ -70,14 +73,15 @@ export default function SummaryPage() {
           />
         </Grid>
         <Grid item>
-        <TextField
+          <TextField
             required
             id="outlined-required"
             label="Email"
             placeholder="Email"
             onChange={onEmailChange}
           />
-          <Button style={{marginLeft: "10px", marginTop: "10px"}}
+          <Button
+            style={{ marginLeft: "10px", marginTop: "10px" }}
             variant="contained"
             color="primary"
             size="small"

@@ -58,18 +58,16 @@ var monthdict = {
   Dec: 12,
 };
 
-
 // get data
 app.post("/check-data", (req, res) => {
-
   var reportDict = {
     "Low environment issue": 0,
     "Application issue": 0,
     "Reports": 0,
     "Connection": 0,
     "Smurf Alert": 0,
-    "Security": 0
-  }
+    "Security": 0,
+  };
 
   const start =
     req.body.startYear +
@@ -88,49 +86,41 @@ app.post("/check-data", (req, res) => {
     `SELECT * FROM users WHERE completionDate >= \"${start}\" AND completionDate <= \"${end}\";`,
     function (err, result, fields) {
       if (err) throw err;
-      result.forEach(item => reportDict[String(item.issueType)] = reportDict[String(item.issueType)] + 1);
-
+      result.forEach(
+        (item) =>
+          (reportDict[String(item.issueType)] =
+            reportDict[String(item.issueType)] + 1)
+      );
 
       //send email
-  const em = String(req.body.email);
+      const em = String(req.body.email);
 
-  var dataToSend;
-  // spawn new child process to call the python script
-  const python = spawn("python", ["sendEmail.py",`${em}`, `${reportDict["Low environment issue"]}`, `${reportDict["Application issue"]}`, `${reportDict["Reports"]}`, `${reportDict["Connection"]}`, `${reportDict["Smurf Alert"]}`, `${reportDict["Security"]}`]);
-  
-  // collect data from script
-  python.stdout.on("data", function (data) {
-    console.log("Pipe data from python script ...");
-    dataToSend = data.toString();
-  });
-  // in close event we are sure that stream from child process is closed
-  python.on("close", (code) => {
-    console.log(`child process close all stdio with code ${code}`);
-    // send data to browser
-    res.send(dataToSend);
-  });
+      var dataToSend;
+      // spawn new child process to call the python script
+      const python = spawn("python", [
+        "sendEmail.py",
+        `${em}`,
+        `${reportDict["Low environment issue"]}`,
+        `${reportDict["Application issue"]}`,
+        `${reportDict["Reports"]}`,
+        `${reportDict["Connection"]}`,
+        `${reportDict["Smurf Alert"]}`,
+        `${reportDict["Security"]}`,
+      ]);
+
+      // collect data from script
+      python.stdout.on("data", function (data) {
+        console.log("Pipe data from python script ...");
+        dataToSend = data.toString();
+      });
+      // in close event we are sure that stream from child process is closed
+      python.on("close", (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        // send data to browser
+        res.send(dataToSend);
+      });
     }
   );
-});
-
-//send email
-app.post("/send-email", (req, res) => {
-  const em = String(req.body.email);
-  
-  var dataToSend;
-  // spawn new child process to call the python script
-  const python = spawn("python", ["sendEmail.py",`${em}`]);
-  // collect data from script
-  python.stdout.on("data", function (data) {
-    console.log("Pipe data from python script ...");
-    dataToSend = data.toString();
-  });
-  // in close event we are sure that stream from child process is closed
-  python.on("close", (code) => {
-    console.log(`child process close all stdio with code ${code}`);
-    // send data to browser
-    res.send(dataToSend);
-  });
 });
 
 app.listen(3001, () => {
