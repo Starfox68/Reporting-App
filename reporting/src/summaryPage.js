@@ -24,26 +24,23 @@ export default function SummaryPage() {
     const startArray = String(dateInfo[0].startDate).split(" ");
     const endArray = String(dateInfo[0].endDate).split(" ");
 
-    // const obj = {
-    //   startMonth: startArray[1],
-    //   endMonth: endArray[1],
-    //   startDay: startArray[2],
-    //   endDay: endArray[2],
-    //   startYear: startArray[3],
-    //   endYear: endArray[3],
-    // };
-
     const obj = {
+      startMonth: startArray[1],
+      endMonth: endArray[1],
+      startDay: startArray[2],
+      endDay: endArray[2],
+      startYear: startArray[3],
+      endYear: endArray[3],
       email: emailaddr
-    }
+    };
 
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(obj),
     };
-    // fetch("http://localhost:3001/check-data", requestOptions).then(function (
-    fetch("http://localhost:3001/send-email", requestOptions).then(function (
+    fetch("http://localhost:3001/check-data", requestOptions).then(function (
+    // fetch("http://localhost:3001/send-email", requestOptions).then(function (
       response
     ) {
       console.log(response);
@@ -58,7 +55,7 @@ export default function SummaryPage() {
 
   return (
     <div>
-      <Grid container alignItems="center" justify="center" direction="column">
+      <Grid container alignItems="center" justifyContent="center" direction="column">
         <Typography variant="h6" component="div" style={{ marginTop: "30px" }}>
           Select a date range and click send to generate an automated email
         </Typography>

@@ -7,16 +7,23 @@ from email import encoders
 import os.path
 import sys
 
-fromaddr = "MarkoPollos@outlook.com"
+fromaddr = "JojoGreen1122@outlook.com"
 toaddr = str(sys.argv[1])
+
+envNum = str(sys.argv[2])
+appNum = str(sys.argv[3])
+reportsNum = str(sys.argv[4])
+connNum = str(sys.argv[5])
+smurfNum = str(sys.argv[6])
+secNum = str(sys.argv[7])
 
 msg = MIMEMultipart()
 
 msg['From'] = fromaddr
 msg['To'] = toaddr
-msg['Subject'] = "Wrong Email"
+msg['Subject'] = "Scheduled Reports"
 
-body = "Sorry wrong person"
+body = "The issues completed were as follows:\nLow environment issue: %s\nApplication issue: %s\nReports issue: %s\nConnection issue: %s\nSMURF Alert issue: %s\nSecurity issue: %s\n" % (envNum, appNum, reportsNum, connNum, smurfNum, secNum)
 
 msg.attach(MIMEText(body, 'plain'))
 
@@ -33,10 +40,10 @@ msg.attach(MIMEText(body, 'plain'))
 
 server = smtplib.SMTP('smtp.office365.com', 587)
 server.starttls()
-server.login(fromaddr, "UnbreakablePassword")
+server.login(fromaddr, "Can'tCrackThis")
 text = msg.as_string()
 server.sendmail(fromaddr, toaddr, text)
 server.quit()
 
-#Email: MarkoPollos@outlook.com
-#Password: UnbreakablePassword
+#Email: JojoGreen1122@outlook.com
+#Password: Can'tCrackThis
